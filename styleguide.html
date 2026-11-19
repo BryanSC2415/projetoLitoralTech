@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guia Visual · AnimeTeca</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="js/tailwind.config.js"></script>
+  </head>
+  <body class="min-h-screen">
+    <!--
+      GUIA VISUAL — a "vitrine" do projeto (dono: Pessoa 1)
+      Antes de estilizar qualquer coisa, abra esta página e copie daqui.
+      Componente novo que mais de uma pessoa vai usar? Coloque aqui primeiro.
+    -->
+    <main class="mx-auto max-w-4xl space-y-12 px-4 py-10">
+      <header>
+        <h1 class="text-3xl font-bold">Guia visual</h1>
+        <p class="text-texto-suave">Tudo que o projeto usa. Se não está aqui, pergunte antes de inventar.</p>
+      </header>
+
+      <section>
+        <h2 class="mb-4 text-xl font-semibold">Cores</h2>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-fundo border border-borda"></div><code class="text-xs">bg-fundo</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-superficie border border-borda"></div><code class="text-xs">bg-superficie</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-superficie-2"></div><code class="text-xs">bg-superficie-2</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-borda"></div><code class="text-xs">border-borda</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-primaria"></div><code class="text-xs">primaria</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-secundaria"></div><code class="text-xs">secundaria</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-texto"></div><code class="text-xs">text-texto</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-texto-suave"></div><code class="text-xs">text-texto-suave</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-sucesso"></div><code class="text-xs">sucesso</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-alerta"></div><code class="text-xs">alerta</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-perigo"></div><code class="text-xs">perigo</code></div>
+          <div class="card p-3"><div class="mb-2 h-10 rounded bg-info"></div><code class="text-xs">info</code></div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-xl font-semibold">Tipografia</h2>
+        <div class="card space-y-2 p-6">
+          <p class="font-titulo text-3xl font-bold">Título de página (h1, Poppins)</p>
+          <p class="font-titulo text-xl font-semibold">Título de seção (h2)</p>
+          <p>Texto normal (Inter) para conteúdo.</p>
+          <p class="text-sm text-texto-suave">Texto suave para legendas e apoio.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-xl font-semibold">Botões</h2>
+        <div class="card flex flex-wrap gap-3 p-6">
+          <button class="btn-primario">.btn-primario</button>
+          <button class="btn-secundario">.btn-secundario</button>
+          <button class="btn-perigo">.btn-perigo</button>
+          <button class="btn-fantasma">.btn-fantasma</button>
+          <button class="btn-primario" disabled>desabilitado</button>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-xl font-semibold">Formulário</h2>
+        <div class="card grid gap-4 p-6 sm:grid-cols-2">
+          <div>
+            <label class="label" for="ex1">.label + .input</label>
+            <input class="input" id="ex1" placeholder="Digite algo..." />
+          </div>
+          <div>
+            <label class="label" for="ex2">Com erro (.input-erro + .msg-erro)</label>
+            <input class="input input-erro" id="ex2" value="abc" />
+            <p class="msg-erro">A senha precisa ter pelo menos 6 caracteres.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-xl font-semibold">Status e abas</h2>
+        <div class="card space-y-4 p-6">
+          <div class="flex gap-2">
+            <span class="badge-assistindo">Assistindo</span>
+            <span class="badge-finalizado">Finalizado</span>
+            <span class="badge-na-fila">Na Fila</span>
+          </div>
+          <div class="flex gap-2">
+            <button class="aba aba-ativa">Todos</button>
+            <button class="aba">Assistindo</button>
+            <button class="aba">Finalizados</button>
+            <button class="aba">Na Fila</button>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-xl font-semibold">Superfícies</h2>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="card p-6">.card</div>
+          <div class="card p-6 shadow-brilho">.card + shadow-brilho (hover)</div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

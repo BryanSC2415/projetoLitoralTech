@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrar · AnimeTeca</title>
+
+    <!-- 1) Guarda de rota: já logado → vai direto para a biblioteca -->
+    <script src="js/guarda-rota.js" data-modo="publica"></script>
+
+    <!-- 2) Cabeçalho padrão (igual em TODAS as páginas) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="js/tailwind.config.js"></script>
+  </head>
+  <body class="flex min-h-screen items-center justify-center p-4">
+    <!-- 👤 Pessoa 1: esta tela inteira é sua (ver TODO em js/pages/login.js) -->
+    <main class="card w-full max-w-sm p-8">
+      <h1 class="mb-1 text-2xl font-bold"><span class="text-primaria">Anime</span>Teca</h1>
+      <p class="mb-6 text-sm text-texto-suave">Entre para ver sua biblioteca.</p>
+
+      <form id="form-login" class="space-y-4" novalidate>
+        <div>
+          <label class="label" for="email">E-mail</label>
+          <input class="input" id="email" name="email" type="email" value="demo@litoraltech.com" />
+        </div>
+        <div>
+          <label class="label" for="senha">Senha</label>
+          <input class="input" id="senha" name="senha" type="password" value="123456" />
+        </div>
+        <p id="erro-login" class="msg-erro" role="alert"></p>
+        <button type="submit" class="btn-primario w-full">Entrar</button>
+      </form>
+    </main>
+
+    <script type="module" src="js/pages/login.js"></script>
+  </body>
+</html>

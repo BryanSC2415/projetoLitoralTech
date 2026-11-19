@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minha Biblioteca · AnimeTeca</title>
+
+    <!-- 1) Guarda de rota: sem token → volta para o login -->
+    <script src="js/guarda-rota.js" data-modo="privada"></script>
+
+    <!-- 2) Cabeçalho padrão (igual em TODAS as páginas) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="js/tailwind.config.js"></script>
+  </head>
+  <body class="min-h-screen">
+    <!-- Pessoa 1 -->
+    <header id="navbar" class="border-b border-borda"></header>
+
+    <main class="mx-auto max-w-7xl px-4 py-8">
+      <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-bold">Minha biblioteca</h1>
+          <p class="text-texto-suave">Acompanhe o que você está assistindo.</p>
+        </div>
+        <!-- Pessoa 3 abre o formulário por aqui -->
+        <button type="button" class="btn-primario" data-acao="novo-anime">+ Adicionar anime</button>
+      </div>
+
+      <!-- Pessoa 2: abas + busca -->
+      <div class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div id="filtros" class="flex flex-wrap gap-2"></div>
+        <input id="busca" type="search" class="input md:max-w-xs" placeholder="Buscar pelo título..." />
+      </div>
+
+      <!-- Pessoa 2 (cards) / Pessoa 4 (loading e erro) -->
+      <section id="grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"></section>
+    </main>
+
+    <script type="module" src="js/pages/biblioteca.js"></script>
+  </body>
+</html>
