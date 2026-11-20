@@ -1,44 +1,102 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minha Biblioteca · AnimeTeca</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnimeTeca - Biblioteca</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- 1) Guarda de rota: sem token → volta para o login -->
-    <script src="js/guarda-rota.js" data-modo="privada"></script>
+  <!-- Proteção de rota: roda antes de mostrar a página -->
+  <script src="js/seguranca.js"></script>
+  <script>verificarLogin();</script>
+</head>
+<body class="bg-slate-950 text-white min-h-screen">
 
-    <!-- 2) Cabeçalho padrão (igual em TODAS as páginas) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <script src="js/tailwind.config.js"></script>
-  </head>
-  <body class="min-h-screen">
-    <!-- Pessoa 1 -->
-    <header id="navbar" class="border-b border-borda"></header>
+  <!-- CABEÇALHO (👤 Pessoa 1) -->
+  <header class="border-b border-slate-800">
+    <div class="max-w-6xl mx-auto p-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold"><span class="text-pink-500">Anime</span>Teca</h1>
+      <div class="flex items-center gap-4">
+        <span id="nomeUsuario" class="text-slate-400 text-sm"></span>
+        <button onclick="sair()" class="text-slate-300 hover:text-white">Sair</button>
+      </div>
+    </div>
+  </header>
 
-    <main class="mx-auto max-w-7xl px-4 py-8">
-      <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+  <main class="max-w-6xl mx-auto p-4">
+
+    <div class="flex justify-between items-center my-6">
+      <h2 class="text-3xl font-bold">Minha biblioteca</h2>
+      <button onclick="abrirModal()" class="bg-pink-500 hover:bg-pink-600 rounded px-4 py-2 font-bold">
+        + Adicionar
+      </button>
+    </div>
+
+    <!-- FILTROS E BUSCA (👤 Pessoa 2) -->
+    <div class="flex flex-wrap justify-between gap-4 mb-6">
+      <div class="flex gap-2">
+        <button onclick="filtrar('todos')" data-filtro="todos" class="filtro px-4 py-1 rounded-full">Todos</button>
+        <button onclick="filtrar('assistindo')" data-filtro="assistindo" class="filtro px-4 py-1 rounded-full">Assistindo</button>
+        <button onclick="filtrar('finalizado')" data-filtro="finalizado" class="filtro px-4 py-1 rounded-full">Finalizados</button>
+        <button onclick="filtrar('fila')" data-filtro="fila" class="filtro px-4 py-1 rounded-full">Na Fila</button>
+      </div>
+      <input id="busca" oninput="mostrarAnimes()" type="text" placeholder="Buscar pelo título..."
+             class="bg-slate-800 rounded p-2 w-full md:w-64">
+    </div>
+
+    <!-- GRID DE CARDS (👤 Pessoa 2) -->
+    <div id="grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+  </main>
+
+  <!-- MODAL DE ADICIONAR / EDITAR (👤 Pessoa 3) — começa escondido -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4">
+    <form onsubmit="salvarAnime(event)" class="bg-slate-800 rounded-xl p-6 w-full max-w-md">
+      <h3 id="modalTitulo" class="text-xl font-bold mb-4">Novo anime</h3>
+
+      <!-- guarda o id quando está editando (vazio = anime novo) -->
+      <input id="campoId" type="hidden">
+
+      <label class="block text-sm mb-1">Título</label>
+      <input id="campoTitulo" type="text" class="w-full bg-slate-700 rounded p-2 mb-3">
+
+      <label class="block text-sm mb-1">URL da imagem</label>
+      <input id="campoImagem" type="text" class="w-full bg-slate-700 rounded p-2 mb-3">
+
+      <div class="grid grid-cols-2 gap-3 mb-3">
         <div>
-          <h1 class="text-3xl font-bold">Minha biblioteca</h1>
-          <p class="text-texto-suave">Acompanhe o que você está assistindo.</p>
+          <label class="block text-sm mb-1">Status</label>
+          <select id="campoStatus" class="w-full bg-slate-700 rounded p-2">
+            <option value="assistindo">Assistindo</option>
+            <option value="finalizado">Finalizado</option>
+            <option value="fila">Na Fila</option>
+          </select>
         </div>
-        <!-- Pessoa 3 abre o formulário por aqui -->
-        <button type="button" class="btn-primario" data-acao="novo-anime">+ Adicionar anime</button>
+        <div>
+          <label class="block text-sm mb-1">Nota (0 a 10)</label>
+          <input id="campoNota" type="number" min="0" max="10" step="0.5" class="w-full bg-slate-700 rounded p-2">
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Episódios vistos</label>
+          <input id="campoVistos" type="number" min="0" class="w-full bg-slate-700 rounded p-2">
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Total de episódios</label>
+          <input id="campoTotal" type="number" min="1" class="w-full bg-slate-700 rounded p-2">
+        </div>
       </div>
 
-      <!-- Pessoa 2: abas + busca -->
-      <div class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div id="filtros" class="flex flex-wrap gap-2"></div>
-        <input id="busca" type="search" class="input md:max-w-xs" placeholder="Buscar pelo título..." />
+      <p id="erroModal" class="text-red-400 text-sm mb-3"></p>
+
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="fecharModal()" class="px-4 py-2 text-slate-300">Cancelar</button>
+        <button class="bg-pink-500 hover:bg-pink-600 rounded px-4 py-2 font-bold">Salvar</button>
       </div>
+    </form>
+  </div>
 
-      <!-- Pessoa 2 (cards) / Pessoa 4 (loading e erro) -->
-      <section id="grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"></section>
-    </main>
-
-    <script type="module" src="js/pages/biblioteca.js"></script>
-  </body>
+  <script src="js/dados.js"></script>
+  <script src="js/biblioteca.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/acoes.js"></script>
+</body>
 </html>
