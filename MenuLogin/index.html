@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu de Login</title>
+</head>
+<body>
+<div className="flex h-150 md:h-screen w-scream lg:h-190 items-center justify-center p-4 antialiased ">
+        {/* Card Centralizado */}
+        <div className=" bg-slate-900 border border-secundary border-b-2 p-11 rounded-sm shadow-2xl">
+          {/* Logo / Nome do Site */}
+          <div className="mb-6">
+            <h1 className="text-2xl font-semibold text-slate-100 flex items-center gap-2">
+              <span className="text-indigo-500 font-black">⛩️ LOGIN ⛩️</span>
+            </h1>
+            <p className="text-sm text-slate-400 mt-2">
+              Entre para gerenciar sua lista de animes
+            </p>
+          </div>
+
+          {/* Formulário */}
+          {/* Essa função de onSubmit={handleSubmit} em geral captura qualquer ação realizada tanto clicando no botão quanto dando enter em resumo é isso */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Campo de Usuário / Email */}
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-xs font-medium text-slate-400 mb-1"
+              >
+                Nome de usuário ou Email
+              </label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                // onChange - comunica as ações feitas na hora de digitar e apagar
+                // Em suma ele tá pegando todas as informações que o navegador disponibiliza (onChange) como tecla e clique e faz uma arrow function para atualizar
+                // o nome do usuário com sua função de (e.target.value) que diz o valor que está escrito dentro de quem sofreu a ação
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Ex: otaku_placeholder"
+                className="w-full bg-slate-950 border border-slate-700 text-slate-200 text-sm p-2.5 focus:border-indigo-500 focus:outline-none transition-colors"
+                required
+              />
+            </div>
+
+            {/* Campo de Senha */}
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <label
+                  htmlFor="password"
+                  className="block text-xs font-medium text-slate-400"
+                >
+                  Sua senha secreta
+                </label>
+                <a
+                  href="#forgot"
+                  className="text-xs text-indigo-400 hover:underline"
+                >
+                  Esqueceu a senha?
+                </a>
+              </div>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full bg-slate-950 border border-slate-700 text-slate-200 text-sm p-2.5 focus:border-indigo-500 focus:outline-none transition-colors"
+                required
+              />
+            </div>
+
+            {/* Botão de Login */}
+            <div className="pt-2">
+              <button
+                type="submit"
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm py-2.5 transition-colors shadow-lg shadow-indigo-600/20 cursor-pointer"
+              >
+                Entrar no Mundo Anime
+              </button>
+            </div>
+          </form>
+
+          {/* Rodapé do Card */}
+          <div className="mt-8 pt-6 border-t border-slate-800 text-center">
+            <p className="text-xs text-slate-500">
+              Novo por aqui?{" "}
+              <a
+                href="#register"
+                className="text-indigo-400 hover:underline font-medium"
+              >
+                Criar minha conta de Otaku
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
