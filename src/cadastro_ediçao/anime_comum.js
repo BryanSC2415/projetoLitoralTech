@@ -27,12 +27,14 @@ function atualizarAnimes(anime) {
 }
 
 function limitarVistos(form){
-    const img = form.querySelector("[data-previw]")
-    const url = form.image.value.trim();
-    if (!url) return img.classList.add("hidden");
-    img.src = url;
-    img.classList.remove("hidden");
+ const img = form.querySelector("[data-previw]");
+ const url= form.img.value.trim():
+ if (!url) return img.classList.add("hidden");
+ img.src= url
+     
 }
+
+
 
 
 
