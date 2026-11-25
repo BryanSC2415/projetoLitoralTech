@@ -2,3 +2,13 @@
 
 /* Modo escuro pelo botão: as classes dark: valem quando o <html> tem a classe "dark" */
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Animação de entrada dos avisos (toasts) e da confirmação: classe animate-toast-in */
+@theme {
+  --animate-toast-in: toast-in 0.3s ease-out;
+
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateX(1rem); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+}
