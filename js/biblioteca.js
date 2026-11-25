@@ -5,16 +5,25 @@ function criarCard(anime) {
 
   return `
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-sm shadow-sm overflow-hidden transition-colors">
-    <img src="${anime.imagem}" alt="${anime.titulo}" class="w-full aspect-2/3 object-cover" >
+    <!-- Se o anime não tem imagem, usa a padrão. Se o link falhar (onerror), troca pela padrão. -->
+    <img src="${anime.imagem || IMAGEM_PADRAO}" alt="${anime.titulo}" referrerpolicy="no-referrer"
+      onerror="this.onerror = null; this.src = IMAGEM_PADRAO;"
+      class="w-full aspect-2/3 object-cover" >
 
 <div class="p-3">
 <h2 class="font-bold truncate text-slate-800 dark:text-slate-100">${anime.titulo}</h2>
-<p class="text-sm text-amber-500">Nota: ${anime.nota}</p>
+<p class="text-sm text-amber-500">${anime.nota === null ? "Sem nota" : "Nota: " + anime.nota}</p>
 
 <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">${anime.episodiosVistos} / ${anime.totalEpisodios} episódios</p>
 <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5">
 <div class="bg-indigo-500 h-1.5 rounded-full" style="width: ${progresso}%"></div>
 </div>
+
+<!-- Botão de editar (abre o modal de edição, que fica no js/cadastro.js) -->
+<button onclick="abrirModalEdicao(${anime.id})"
+  class="mt-3 w-full rounded-sm border border-slate-300 py-1 text-xs text-slate-600 transition-colors hover:border-indigo-500 hover:text-indigo-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-indigo-500 dark:hover:text-indigo-400">
+  Editar
+</button>
 </div>
 </div>
 `;

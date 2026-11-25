@@ -1,3 +1,6 @@
+// Imagem usada quando o anime não tem capa ou quando o link da capa não funciona
+const IMAGEM_PADRAO = "https://placehold.co/300x450?text=Sem+imagem";
+
 const ANIMES_INICIAIS = [
     {
         id: 1,
