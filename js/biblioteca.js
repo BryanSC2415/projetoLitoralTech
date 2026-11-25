@@ -1,3 +1,16 @@
+// Selo de status no card (ideia do colega): texto e cores de cada status
+const SELOS_STATUS = {
+  assistindo: { texto: "Assistindo", cores: "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300" },
+  finalizado: { texto: "Finalizado", cores: "bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-300" },
+  "na-fila": { texto: "Na Fila", cores: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300" },
+};
+
+// Botões redondos de −1 / +1 episódio (estilo do colega)
+const BOTAO_EPISODIO =
+  "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-white transition hover:bg-indigo-500 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-indigo-600 disabled:active:scale-100";
+const ICONE_MENOS = `<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M5 12h14"/></svg>`;
+const ICONE_MAIS = `<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>`;
+
 function criarCard(anime) {
   const progresso = Math.round(
     (anime.episodiosVistos / anime.totalEpisodios) * 100,
@@ -21,11 +34,33 @@ function criarCard(anime) {
 <div class="bg-indigo-500 h-1.5 rounded-full" style="width: ${progresso}%"></div>
 </div>
 
-<!-- Botão de editar (abre o modal de edição, que fica no js/cadastro.js) -->
-<button onclick="abrirModalEdicao(${anime.id})"
-  class="mt-3 w-full rounded-sm border border-slate-300 py-1 text-xs text-slate-600 transition-colors hover:border-indigo-500 hover:text-indigo-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-indigo-500 dark:hover:text-indigo-400">
-  Editar
-</button>
+<!-- Progresso com os botões −1 / +1 (ações rápidas, no js/acoes.js) -->
+<div class="mt-2 flex items-center gap-2">
+  <button onclick="mudarEpisodio(${anime.id}, -1)" aria-label="Remover um episódio"
+    class="${BOTAO_EPISODIO}" ${anime.episodiosVistos <= 0 ? "disabled" : ""}>${ICONE_MENOS}</button>
+
+  <div class="min-w-0 flex-1">
+    <p class="text-xs text-slate-500 dark:text-slate-400">${anime.episodiosVistos} / ${anime.totalEpisodios} eps · ${progresso}%</p>
+    <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5">
+      <div class="bg-indigo-500 h-1.5 rounded-full transition-all duration-300" style="width: ${progresso}%"></div>
+    </div>
+  </div>
+
+  <button onclick="mudarEpisodio(${anime.id}, 1)" aria-label="Adicionar um episódio"
+    class="${BOTAO_EPISODIO}" ${anime.episodiosVistos >= anime.totalEpisodios ? "disabled" : ""}>${ICONE_MAIS}</button>
+</div>
+
+<!-- Editar (js/cadastro.js) e Remover (js/acoes.js) -->
+<div class="mt-3 flex gap-2">
+  <button onclick="abrirModalEdicao(${anime.id})"
+    class="flex-1 rounded-sm border border-slate-300 py-1 text-xs text-slate-600 transition-colors hover:border-indigo-500 hover:text-indigo-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-indigo-500 dark:hover:text-indigo-400">
+    Editar
+  </button>
+  <button onclick="removerAnime(${anime.id})"
+    class="flex-1 rounded-sm border border-slate-300 py-1 text-xs text-slate-600 transition-colors hover:border-red-500 hover:text-red-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-red-500 dark:hover:text-red-400">
+    Remover
+  </button>
+</div>
 </div>
 </div>
 `;
@@ -122,5 +157,50 @@ if (localStorage.getItem("tema") === "escuro") {
 }
 atualizarBotaoTema();
 
-// Quando a página abre: pega os animes e mostra na tela
-mostrarAnimes(pegarAnimes());
+// ---------- Carregamento e tela de erro ----------
+
+// Enquanto os animes "carregam", mostra cards cinzas piscando (animate-pulse)
+function mostrarCarregando() {
+  const grid = document.getElementById("grid-animes");
+  grid.innerHTML = "";
+  for (let i = 0; i < 5; i++) {
+    grid.innerHTML += `
+      <div class="animate-pulse rounded-sm border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+        <div class="aspect-2/3 bg-slate-200 dark:bg-slate-800"></div>
+        <div class="space-y-2 p-3">
+          <div class="h-4 w-3/4 rounded bg-slate-200 dark:bg-slate-800"></div>
+          <div class="h-3 w-1/2 rounded bg-slate-200 dark:bg-slate-800"></div>
+          <div class="h-1.5 rounded bg-slate-200 dark:bg-slate-800"></div>
+        </div>
+      </div>`;
+  }
+}
+
+// Se der erro ao ler os animes, mostra uma mensagem amigável com "Tentar novamente"
+function mostrarErro() {
+  document.getElementById("grid-animes").innerHTML = `
+    <div class="col-span-full rounded-sm border border-red-300 bg-red-50 p-8 text-center dark:border-red-500/50 dark:bg-slate-900">
+      <p class="font-semibold text-red-700 dark:text-red-400">Não foi possível carregar sua biblioteca.</p>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Os dados salvos podem estar com problema.</p>
+      <button onclick="carregarBiblioteca()"
+        class="mt-4 rounded-sm bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-500">Tentar novamente</button>
+    </div>`;
+}
+
+// Mostra o carregando, espera um pouco (como se fosse um servidor) e desenha os cards
+function carregarBiblioteca() {
+  mostrarCarregando();
+
+  setTimeout(() => {
+    try {
+      atualizarTela(); // aqui o pegarAnimes() é chamado
+    } catch (erro) {
+      console.error(erro);
+      mostrarErro();
+      handleApiError(500);
+    }
+  }, 600); // 600 milissegundos = 0,6 segundo
+}
+
+// Quando a página abre: carrega os animes e mostra na tela
+carregarBiblioteca();

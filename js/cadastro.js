@@ -128,11 +128,20 @@ function salvarCadastro(event) {
   };
 
   const lista = pegarAnimes();
+
+  // Não deixa cadastrar o mesmo título duas vezes (erro 409 do feedback.js)
+  const jaExiste = lista.some((a) => a.titulo.toLowerCase() === novoAnime.titulo.toLowerCase());
+  if (jaExiste) {
+    handleApiError(409); // "Este anime já está na sua lista."
+    return;
+  }
+
   lista.unshift(novoAnime); // unshift = coloca no COMEÇO da lista
   salvarAnimes(lista);
 
   fecharModal("modal-cadastro");
   atualizarTela(); // redesenha os cards (respeitando aba e pesquisa)
+  showToast(`${novoAnime.titulo} adicionado!`, "success");
 }
 
 // ---------- EDIÇÃO ----------
@@ -180,4 +189,5 @@ function salvarEdicao(event) {
   salvarAnimes(lista);
   fecharModal("modal-edicao");
   atualizarTela();
+  showToast("Alterações salvas!", "success");
 }

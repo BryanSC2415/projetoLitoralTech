@@ -26,6 +26,11 @@ function clearMessage() {
   message.classList.add('hidden');
 }
 
+// Se veio da biblioteca porque a sessão expirou (index.html?motivo=expirou), avisa
+if (window.location.search.includes('motivo=expirou')) {
+  showMessage('Sua sessão expirou. Faça login novamente.', 'error');
+}
+
 // ---------- Alternar entre login e cadastro ----------
 document.getElementById('showRegister').addEventListener('click', (e) => {
   e.preventDefault(); // impede o link de recarregar a página
@@ -87,10 +92,16 @@ loginForm.addEventListener('submit', (e) => {
       u.password === password
   );
 
+  const campos = [document.getElementById('username'), document.getElementById('password')];
+
   if (!user) {
     showMessage('Usuário/e-mail ou senha incorretos.', 'error');
+    // Borda vermelha nos campos (ideia do colega do feedback)
+    campos.forEach((campo) => campo.classList.add('border-red-500'));
     return;
   }
+
+  campos.forEach((campo) => campo.classList.remove('border-red-500'));
 
   // Guarda quem está logado (sem a senha!)
   localStorage.setItem(
@@ -101,6 +112,10 @@ loginForm.addEventListener('submit', (e) => {
   // Token de mentira (ainda não temos backend). É ele que libera a biblioteca.
   localStorage.setItem('token', 'token-' + Date.now());
 
-  // Vai para a página da biblioteca
-  window.location.href = 'biblioteca.html';
+  // Botão com "Entrando..." girando (setButtonLoading do feedback.js) e depois vai para a biblioteca
+  const botao = loginForm.querySelector('button[type="submit"]');
+  setButtonLoading(botao, true, 'Entrando...');
+  setTimeout(() => {
+    window.location.href = 'biblioteca.html';
+  }, 800);
 });
