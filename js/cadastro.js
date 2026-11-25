@@ -10,12 +10,23 @@
 function fecharModal(id) {
   document.getElementById(id).close();
 }
+//recebe um id de um dialog e depois fecha
 
 // Clicar fora da janela (na parte escura) também fecha o modal
 for (const modal of document.querySelectorAll("dialog")) {
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) modal.close();
+ let comecouFora = false; //lembra onde começou o clique
+ //anota se comelou na parte de fora do modal
+  modal.addEventListener("mousedown", (e) => {
+    comecouFora = e.target === modal;
   });
+
+//so fecha se o clique começou fora
+
+modal.addEventListener("click", (e)=> {
+  if(comecouFora && e.target === modal) modal.close();
+  comecouFora= false;
+})
+
 }
 
 // ---------- Imagem a partir de um link da internet ----------

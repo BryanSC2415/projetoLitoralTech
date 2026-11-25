@@ -2,6 +2,7 @@ function criarCard(anime) {
   const progresso = Math.round(
     (anime.episodiosVistos / anime.totalEpisodios) * 100,
   );
+  //funçao para criar o card do do anime e pora por  porcentagem de quantos ep ja foram vistos
 
   return `
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-sm shadow-sm overflow-hidden transition-colors">
@@ -10,10 +11,11 @@ function criarCard(anime) {
       onerror="this.onerror = null; this.src = IMAGEM_PADRAO;"
       class="w-full aspect-2/3 object-cover" >
 
+
 <div class="p-3">
 <h2 class="font-bold truncate text-slate-800 dark:text-slate-100">${anime.titulo}</h2>
 <p class="text-sm text-amber-500">${anime.nota === null ? "Sem nota" : "Nota: " + anime.nota}</p>
-
+<!-- corta titulos grandes com o truncate e mostra a nota e se n tiver vai aparecer sem nota -->
 <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">${anime.episodiosVistos} / ${anime.totalEpisodios} episódios</p>
 <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5">
 <div class="bg-indigo-500 h-1.5 rounded-full" style="width: ${progresso}%"></div>
@@ -61,6 +63,7 @@ const CORES_ABA_NORMAL = [
 
 function marcarAbaAtiva() {
   const abas = document.querySelectorAll(".aba");
+   // pega todos os botões de aba
 
   for (const aba of abas) {
     // os "..." espalham a lista: é como escrever cada classe separada por vírgula
