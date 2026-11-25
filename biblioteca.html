@@ -6,38 +6,78 @@
     <title>Minha Biblioteca</title>
     <link rel="stylesheet" href="./dist/output.css" />
   </head>
-  <body class="bg-slate-100 min-h-screen">
+  <body class="bg-slate-100 dark:bg-slate-900 min-h-screen">
     <!-- 1. Cabeçalho -->
-    <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-sky-600">AnimeTeca</h1>
-      <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-        Sair
-      </button>
+    <header class="bg-white dark:bg-slate-800 shadow px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-sky-600 dark:text-sky-400">AnimeTeca</h1>
+
+      <div class="flex items-center gap-2">
+        <!-- Botão do modo escuro -->
+        <button
+          id="botao-tema"
+          onclick="alternarTema()"
+          class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+        >
+          🌙 Escuro
+        </button>
+
+        <button
+          class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+        >
+          Sair
+        </button>
+      </div>
     </header>
 
-    <main class="max-w-6x1 mx-auto p-6">
-    <!-- 2. Abas de Filtro -->
+    <main class="max-w-6xl mx-auto p-6">
+      <!-- 2. Abas de Filtro -->
+      <div class="flex flex-wrap gap-2 mb-4">
+        <button
+          onclick="filtrarPorStatus('todos')"
+          data-status="todos"
+          class="aba px-4 py-2 rounded-full shadow bg-sky-500 text-white"
+        >
+          Todos
+        </button>
 
-    <!-- 3. Barra de Pesquisa -->
+        <button
+          onclick="filtrarPorStatus('assistindo')"
+          data-status="assistindo"
+          class="aba px-4 py-2 rounded-full shadow bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+        >
+          Assistindo
+        </button>
 
-    <!-- 4. Grid de Cards -->
-<div id="grid-animes" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <button
+          onclick="filtrarPorStatus('finalizado')"
+          data-status="finalizado"
+          class="aba px-4 py-2 rounded-full shadow bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+        >
+          Finalizados
+        </button>
 
-    <!-- Card exemplo-->
-     <div class="bg-white rounded-lg shadow overflow-hidden">
-        <img src="https://placehold.co/300x450" alt="Capa" class="w-full aspect-[2/3] object-cover">
-
-        <div class="p-3">
-            <h2 class="font-bold truncate">Nome do Anime</h2>
-            <p class="text-sm text-amber-500">nota: 8.5</p>
-
-            <p class="text-xs text-slate-500 mt-2">12 / 24 episódios</p>
-            <div class="w-full bg-slate-200 rounded-full h-2">
-                <div class="bg-sky-500 h-2 rounded-full" style="width: 50%"></div>
-            </div>
-        </div>
-     </div>
-
+        <button
+          onclick="filtrarPorStatus('na-fila')"
+          data-status="na-fila"
+          class="aba px-4 py-2 rounded-full shadow bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+        >
+          Na Fila
+        </button>
+      </div>
+      <!-- 3. Barra de Pesquisa -->
+      <input
+        id="busca"
+        type="text"
+        oninput="pesquisar()"
+        placeholder="Pesquisar pelo título..."
+        class="w-full sm:w-80 mb-6 px-4 py-2 rounded-lg bg-white shadow outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-400"
+      />
+      <!-- 4. Grid de Cards -->
+      <!-- Os cards são criados pelo JavaScript (js/biblioteca.js) -->
+      <div
+        id="grid-animes"
+        class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
+      ></div>
     </main>
     <script src="./js/dados.js"></script>
     <script src="./js/biblioteca.js"></script>

@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+/* Modo escuro pelo botão: as classes dark: valem quando o <html> tem a classe "dark" */
+@custom-variant dark (&:where(.dark, .dark *));
