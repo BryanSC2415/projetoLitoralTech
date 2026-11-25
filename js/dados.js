@@ -41,3 +41,15 @@ function pegarAnimes(){
 function salvarAnimes(lista){
     localStorage.setItem("animes", JSON.stringify(lista));
 }
+
+// ---------- Usuários (login e cadastro) ----------
+
+// Lê a lista de usuários. Se não existir ainda, devolve uma lista vazia.
+function getUsers() {
+  return JSON.parse(localStorage.getItem('users')) || [];
+}
+
+// Salva a lista de usuários (convertida em texto)
+function saveUsers(users) {
+  localStorage.setItem('users', JSON.stringify(users));
+}

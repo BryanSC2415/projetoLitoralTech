@@ -5,24 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minha Biblioteca</title>
     <link rel="stylesheet" href="./dist/output.css" />
+
+    <!-- Proteção: sem login, volta para a tela de login (index.html) -->
+    <script src="./js/sessao.js"></script>
+    <script>verificarLogin();</script>
   </head>
-  <body class="bg-slate-100 dark:bg-slate-900 min-h-screen">
+  <body class="bg-slate-100 dark:bg-slate-950 min-h-screen">
     <!-- 1. Cabeçalho -->
-    <header class="bg-white dark:bg-slate-800 shadow px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-sky-600 dark:text-sky-400">AnimeTeca</h1>
+    <header
+      class="bg-white dark:bg-slate-900 border-b-2 border-indigo-500 px-6 py-4 flex justify-between items-center"
+    >
+      <h1 class="text-2xl font-black tracking-tight text-slate-800 dark:text-slate-100">
+        <span class="text-indigo-500">Anime</span>Teca
+      </h1>
 
       <div class="flex items-center gap-2">
         <!-- Botão do modo escuro -->
         <button
           id="botao-tema"
           onclick="alternarTema()"
-          class="px-4 py-2 rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+          class="px-4 py-2 rounded-sm border text-sm transition-colors bg-white border-slate-300 text-slate-700 hover:border-indigo-500 dark:bg-slate-950 dark:border-slate-700 dark:text-slate-200 dark:hover:border-indigo-500"
         >
-          🌙 Escuro
+          Modo escuro
         </button>
 
         <button
-          class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+          onclick="sair()"
+          class="bg-red-500 text-white text-sm px-4 py-2 rounded-sm hover:bg-red-600"
         >
           Sair
         </button>
@@ -35,7 +44,7 @@
         <button
           onclick="filtrarPorStatus('todos')"
           data-status="todos"
-          class="aba px-4 py-2 rounded-full shadow bg-sky-500 text-white"
+          class="aba px-4 py-2 rounded-sm border text-sm transition-colors bg-indigo-600 text-white border-indigo-600"
         >
           Todos
         </button>
@@ -43,7 +52,7 @@
         <button
           onclick="filtrarPorStatus('assistindo')"
           data-status="assistindo"
-          class="aba px-4 py-2 rounded-full shadow bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+          class="aba px-4 py-2 rounded-sm border text-sm transition-colors bg-white text-slate-600 border-slate-300 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700"
         >
           Assistindo
         </button>
@@ -51,7 +60,7 @@
         <button
           onclick="filtrarPorStatus('finalizado')"
           data-status="finalizado"
-          class="aba px-4 py-2 rounded-full shadow bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+          class="aba px-4 py-2 rounded-sm border text-sm transition-colors bg-white text-slate-600 border-slate-300 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700"
         >
           Finalizados
         </button>
@@ -59,7 +68,7 @@
         <button
           onclick="filtrarPorStatus('na-fila')"
           data-status="na-fila"
-          class="aba px-4 py-2 rounded-full shadow bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+          class="aba px-4 py-2 rounded-sm border text-sm transition-colors bg-white text-slate-600 border-slate-300 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700"
         >
           Na Fila
         </button>
@@ -70,7 +79,7 @@
         type="text"
         oninput="pesquisar()"
         placeholder="Pesquisar pelo título..."
-        class="w-full sm:w-80 mb-6 px-4 py-2 rounded-lg bg-white shadow outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-400"
+        class="w-full sm:w-80 mb-6 px-4 py-2 rounded-sm border text-sm outline-none transition-colors bg-white border-slate-300 text-slate-800 focus:border-indigo-500 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-200 dark:placeholder-slate-500"
       />
       <!-- 4. Grid de Cards -->
       <!-- Os cards são criados pelo JavaScript (js/biblioteca.js) -->

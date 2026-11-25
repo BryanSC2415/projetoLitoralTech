@@ -4,16 +4,16 @@ function criarCard(anime) {
   );
 
   return `
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-sm shadow-sm overflow-hidden transition-colors">
     <img src="${anime.imagem}" alt="${anime.titulo}" class="w-full aspect-2/3 object-cover" >
 
 <div class="p-3">
-<h2 class="font-bold truncate dark:text-slate-100">${anime.titulo}</h2>
+<h2 class="font-bold truncate text-slate-800 dark:text-slate-100">${anime.titulo}</h2>
 <p class="text-sm text-amber-500">Nota: ${anime.nota}</p>
 
 <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">${anime.episodiosVistos} / ${anime.totalEpisodios} episódios</p>
-<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-<div class="bg-sky-500 h-2 rounded-full" style="width: ${progresso}%"></div>
+<div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5">
+<div class="bg-indigo-500 h-1.5 rounded-full" style="width: ${progresso}%"></div>
 </div>
 </div>
 </div>
@@ -43,16 +43,24 @@ function filtrarPorStatus(status) {
   atualizarTela(); // redesenha considerando aba + pesquisa
 }
 
+// Cores da aba selecionada e das outras abas (iguais às do biblioteca.html)
+const CORES_ABA_ATIVA = ["bg-indigo-600", "text-white", "border-indigo-600"];
+const CORES_ABA_NORMAL = [
+  "bg-white", "text-slate-600", "border-slate-300",
+  "dark:bg-slate-900", "dark:text-slate-300", "dark:border-slate-700",
+];
+
 function marcarAbaAtiva() {
   const abas = document.querySelectorAll(".aba");
 
   for (const aba of abas) {
+    // os "..." espalham a lista: é como escrever cada classe separada por vírgula
     if (aba.dataset.status === filtroAtual) {
-      aba.classList.remove("bg-white", "text-slate-600", "dark:bg-slate-800", "dark:text-slate-300");
-      aba.classList.add("bg-sky-500", "text-white");
+      aba.classList.remove(...CORES_ABA_NORMAL);
+      aba.classList.add(...CORES_ABA_ATIVA);
     } else {
-      aba.classList.remove("bg-sky-500", "text-white");
-      aba.classList.add("bg-white", "text-slate-600", "dark:bg-slate-800", "dark:text-slate-300");
+      aba.classList.remove(...CORES_ABA_ATIVA);
+      aba.classList.add(...CORES_ABA_NORMAL);
     }
   }
 }
@@ -79,7 +87,7 @@ function atualizarTela() {
 
 // ---------- Modo escuro ----------
 
-// Liga ou desliga o modo escuro (chamada pelo botão 🌙 do cabeçalho)
+// Liga ou desliga o modo escuro (chamada pelo botão do cabeçalho)
 function alternarTema() {
   // toggle: se o <html> tem a classe "dark", tira; se não tem, coloca
   document.documentElement.classList.toggle("dark");
@@ -93,7 +101,7 @@ function alternarTema() {
 // Troca o texto do botão conforme o tema atual
 function atualizarBotaoTema() {
   const escuro = document.documentElement.classList.contains("dark");
-  document.getElementById("botao-tema").textContent = escuro ? "☀️ Claro" : "🌙 Escuro";
+  document.getElementById("botao-tema").textContent = escuro ? "Modo claro" : "Modo escuro";
 }
 
 // Quando a página abre: se a pessoa tinha escolhido o modo escuro, já começa escuro

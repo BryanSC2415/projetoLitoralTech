@@ -1,12 +1,122 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LitoralTech</title>
+  <title>AnimeTeca - Login</title>
   <link rel="stylesheet" href="./dist/output.css" />
 </head>
-<body class="min-h-screen bg-slate-100 flex items-center justify-center">
-  <h1 class="text-3xl font-bold text-sky-600">Tailwind funcionando!</h1>
+<body class="bg-slate-950">
+  <div class="flex h-screen w-screen items-center justify-center p-4 antialiased">
+    <div class="bg-slate-900 border border-indigo-500 border-b-2 p-11 rounded-sm shadow-2xl w-full max-w-sm">
+
+      <!-- Logo -->
+      <div class="mb-8 text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-400">
+          Bem-vindo à
+        </p>
+        <h1 class="mt-1 text-4xl font-black tracking-tight text-slate-100">
+          <span class="text-indigo-500">Anime</span>Teca
+        </h1>
+        <p class="text-sm text-slate-400 mt-3">
+          Entre para gerenciar sua lista de animes
+        </p>
+      </div>
+
+      <!-- Mensagem de erro/sucesso -->
+      <p id="message" class="hidden text-sm text-center mb-4"></p>
+
+      <!-- ========== LOGIN ========== -->
+      <section id="loginSection">
+        <form id="loginForm" class="space-y-4">
+          <div>
+            <label for="username" class="block text-xs font-medium text-slate-400 mb-1">
+              Nome de usuário ou Email
+            </label>
+            <input type="text" id="username" placeholder="Ex: otaku_placeholder"
+              class="w-full bg-slate-950 border border-slate-700 text-slate-200 text-sm p-2.5 focus:border-indigo-500 focus:outline-none transition-colors"
+              required />
+          </div>
+
+          <div>
+            <label for="password" class="block text-xs font-medium text-slate-400 mb-1">
+              Sua senha secreta
+            </label>
+            <input type="password" id="password" placeholder="••••••••"
+              class="w-full bg-slate-950 border border-slate-700 text-slate-200 text-sm p-2.5 focus:border-indigo-500 focus:outline-none transition-colors"
+              required />
+          </div>
+
+          <div class="pt-2">
+            <button type="submit"
+              class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm py-2.5 transition-colors shadow-lg shadow-indigo-600/20 cursor-pointer">
+              Entrar no Mundo Anime
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-slate-800 text-center">
+          <p class="text-xs text-slate-500 flex flex-col">
+            Novo por aqui?
+            <a href="#" id="showRegister" class="text-indigo-400 hover:underline font-medium">
+              Criar minha conta de Otaku
+            </a>
+          </p>
+        </div>
+      </section>
+
+      <!-- ========== CADASTRO ========== -->
+      <section id="registerSection" class="hidden">
+        <form id="registerForm" class="space-y-4">
+          <div>
+            <label for="regUsername" class="block text-xs font-medium text-slate-400 mb-1">
+              Nome de usuário
+            </label>
+            <input type="text" id="regUsername" placeholder="Ex: otaku_placeholder"
+              class="w-full bg-slate-950 border border-slate-700 text-slate-200 text-sm p-2.5 focus:border-indigo-500 focus:outline-none transition-colors"
+              required />
+          </div>
+
+          <div>
+            <label for="regEmail" class="block text-xs font-medium text-slate-400 mb-1">
+              Email
+            </label>
+            <input type="email" id="regEmail" placeholder="voce@email.com"
+              class="w-full bg-slate-950 border border-slate-700 text-slate-200 text-sm p-2.5 focus:border-indigo-500 focus:outline-none transition-colors"
+              required />
+          </div>
+
+          <div>
+            <label for="regPassword" class="block text-xs font-medium text-slate-400 mb-1">
+              Senha (mín. 6 caracteres)
+            </label>
+            <input type="password" id="regPassword" placeholder="••••••••" minlength="6"
+              class="w-full bg-slate-950 border border-slate-700 text-slate-200 text-sm p-2.5 focus:border-indigo-500 focus:outline-none transition-colors"
+              required />
+          </div>
+
+          <div class="pt-2">
+            <button type="submit"
+              class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm py-2.5 transition-colors shadow-lg shadow-indigo-600/20 cursor-pointer">
+              Criar conta
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-slate-800 text-center">
+          <p class="text-xs text-slate-500 flex flex-col">
+            Já tem conta?
+            <a href="#" id="showLogin" class="text-indigo-400 hover:underline font-medium">
+              Voltar para o login
+            </a>
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="./js/dados.js"></script>
+  <script src="./js/login.js"></script>
 </body>
 </html>
