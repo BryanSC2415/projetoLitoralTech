@@ -5,7 +5,7 @@ const ANIMES_INICIAIS = [
     {
         id: 1,
         titulo: "Frieren",
-        imagem: "https://placehold.co/300x450?text=Frieren",
+        imagem: "https://i.pinimg.com/1200x/93/88/89/9388895dd76dfc240a8e37a9143e6983.jpg",
         nota: 9.5,
         episodiosVistos: 18,
         totalEpisodios: 28,
@@ -14,7 +14,7 @@ const ANIMES_INICIAIS = [
     {
         id: 2,
         titulo: "Jujutsu Kaisen",
-        imagem: "https://placehold.co/300x450?text=Jujutsu+Kaisen",
+        imagem: "https://i.pinimg.com/1200x/5e/af/3c/5eaf3c6435abf357b399ab4cba7f8bd9.jpg",
         nota: 9.0,
         episodiosVistos: 24,
         totalEpisodios: 24,
@@ -23,7 +23,7 @@ const ANIMES_INICIAIS = [
     {
         id: 3,
         titulo: "Attack on Titan",
-        imagem: "https://placehold.co/300x450?text=Attack+on+Titan",
+        imagem: "https://i.pinimg.com/1200x/fd/aa/d1/fdaad11b3d5ef645cb9548fb4ace27ad.jpg",
         nota: 9.8,
         episodiosVistos: 0,
         totalEpisodios: 75,
