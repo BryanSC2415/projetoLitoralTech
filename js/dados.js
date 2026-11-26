@@ -1,6 +1,7 @@
-// Imagem usada quando o anime não tem capa ou quando o link da capa não funciona
+// Imagem usada quando não tem capa ou o link falha
 const IMAGEM_PADRAO = "https://placehold.co/300x450?text=Sem+imagem";
 
+// Animes de exemplo, adicionados pelo próprio site
 const ANIMES_INICIAIS = [
     {
         id: 1,
@@ -10,7 +11,7 @@ const ANIMES_INICIAIS = [
         episodiosVistos: 18,
         totalEpisodios: 28,
         status: "assistindo",
-        adicionadoPor: "AnimeTeca" // animes de exemplo vêm do próprio site
+        adicionadoPor: "AnimeTeca"
     },
     {
         id: 2,
@@ -20,7 +21,7 @@ const ANIMES_INICIAIS = [
         episodiosVistos: 24,
         totalEpisodios: 24,
         status: "finalizado",
-        adicionadoPor: "AnimeTeca" // animes de exemplo vêm do próprio site
+        adicionadoPor: "AnimeTeca"
     },
     {
         id: 3,
@@ -30,10 +31,10 @@ const ANIMES_INICIAIS = [
         episodiosVistos: 0,
         totalEpisodios: 75,
         status: "na-fila",
-        adicionadoPor: "AnimeTeca" // animes de exemplo vêm do próprio site
+        adicionadoPor: "AnimeTeca"
     }
 ];
-//Devolve a lista
+// Devolve a lista salva ou a de exemplo
 function pegarAnimes(){
     const salvos = localStorage.getItem("animes");
 
@@ -43,24 +44,24 @@ function pegarAnimes(){
     return ANIMES_INICIAIS;
 }
 
-//guarda alista no navegador
+// Salva a lista no navegador
 function salvarAnimes(lista){
     localStorage.setItem("animes", JSON.stringify(lista));
 }
 
-// ---------- Usuários (login e cadastro) ----------
+// Usuários (login e cadastro)
 
-// Lê a lista de usuários. Se não existir ainda, devolve uma lista vazia.
+// Lista de usuários (vazia se ainda não tiver nenhum)
 function getUsers() {
   return JSON.parse(localStorage.getItem('users')) || [];
 }
 
-// Salva a lista de usuários (convertida em texto)
+// Salva a lista de usuários
 function saveUsers(users) {
   localStorage.setItem('users', JSON.stringify(users));
 }
 
-// Devolve o nome de quem está logado agora (o login guarda isso em "loggedUser")
+// Nome de quem está logado (vem do "loggedUser" salvo no login)
 function pegarUsuarioLogado() {
   const salvo = localStorage.getItem('loggedUser');
   if (salvo) {

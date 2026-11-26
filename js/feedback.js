@@ -1,10 +1,7 @@
-// ===============================================
-// FEEDBACK: avisos (toasts), botão carregando, erros e confirmação de remoção
-// Adaptado do código do colega (antes feedback.js + modal.js com import/export).
-// Agora são funções comuns, que qualquer página pode usar depois de carregar este arquivo.
-// ===============================================
+// Avisos (toasts), botão carregando, erros e confirmação de remoção
+// Usado no login e na biblioteca
 
-// ---------- Avisos no canto da tela (toasts) ----------
+// Avisos (toasts)
 
 const ICONES_TOAST = {
   error: `<svg class="h-6 w-6 shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M15 9l-6 6M9 9l6 6"/></svg>`,
@@ -16,20 +13,20 @@ const CORES_TOAST = {
   success: "border-green-500 bg-green-50 text-green-800 dark:bg-slate-900 dark:text-green-300",
 };
 
-// Caixa no canto inferior direito onde os avisos aparecem (é criada na primeira vez)
+// Caixa no canto da tela onde ficam os avisos
 function pegarCaixaDeToasts() {
   let caixa = document.getElementById("toast-container");
   if (!caixa) {
     caixa = document.createElement("div");
     caixa.id = "toast-container";
-    caixa.setAttribute("aria-live", "polite"); // leitores de tela anunciam o aviso
+    caixa.setAttribute("aria-live", "polite"); // leitor de tela lê o aviso
     caixa.className = "fixed bottom-4 right-4 z-50 flex flex-col gap-3";
     document.body.appendChild(caixa);
   }
   return caixa;
 }
 
-// Mostra um aviso por alguns segundos. tipo: "success" (verde) ou "error" (vermelho)
+// Mostra um aviso por uns segundos ("success" verde, "error" vermelho)
 function showToast(mensagem, tipo = "error", duracao = 4000) {
   const toast = document.createElement("div");
   toast.className = `animate-toast-in flex items-center gap-3 rounded-sm border-l-4 px-4 py-3 shadow-lg transition-all duration-300 ${CORES_TOAST[tipo]}`;
@@ -42,19 +39,19 @@ function showToast(mensagem, tipo = "error", duracao = 4000) {
 
   pegarCaixaDeToasts().appendChild(toast);
 
-  // Depois do tempo, some devagar e é removido
+  // Some depois do tempo
   setTimeout(() => {
     toast.classList.add("opacity-0", "translate-x-4");
     setTimeout(() => toast.remove(), 300);
   }, duracao);
 }
 
-// ---------- Botão "carregando" ----------
+// Botão carregando
 
-// Troca o texto do botão por um círculo girando e desabilita o clique
+// Círculo girando no botão e bloqueia o clique
 function setButtonLoading(botao, carregando, texto = "Carregando...") {
   if (carregando) {
-    botao.dataset.original = botao.innerHTML; // guarda o texto original
+    botao.dataset.original = botao.innerHTML; // guarda o texto pra voltar depois
     botao.disabled = true;
     botao.classList.add("opacity-70", "cursor-not-allowed");
     botao.innerHTML = `<span class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span> ${texto}`;
@@ -65,9 +62,9 @@ function setButtonLoading(botao, carregando, texto = "Carregando...") {
   }
 }
 
-// ---------- Mensagens de erro amigáveis ----------
+// Mensagens de erro
 
-// Recebe um código de erro (como os de um servidor) e mostra uma mensagem que a pessoa entende
+// Mensagem simples pra cada código de erro
 function handleApiError(status, mensagemExtra) {
   const mensagens = {
     400: "Dados inválidos. Confira os campos.",
@@ -79,13 +76,12 @@ function handleApiError(status, mensagemExtra) {
   showToast(mensagens[status] || mensagemExtra || "Algo deu errado.", "error");
 }
 
-// ---------- Confirmação antes de remover ----------
+// Confirmação antes de remover
 
 const ICONE_ALERTA = `<svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.3 3.9L2.4 17.5A2 2 0 004.1 20.5h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>`;
 
-// Abre a janela "Remover anime?" e espera a resposta.
-// Devolve uma Promise: true se clicou em Remover, false se cancelou.
-// Uso: if (await confirmDelete("Naruto")) { ...remove... }
+// Abre a janela "Remover anime?"
+// Devolve true se clicou em Remover e false se cancelou
 function confirmDelete(nomeDoAnime = "este anime") {
   return new Promise((responder) => {
     const janela = document.createElement("dialog");
@@ -107,14 +103,14 @@ function confirmDelete(nomeDoAnime = "este anime") {
         </div>
       </div>`;
 
-    // O nome vai com textContent para não quebrar o HTML se tiver caracteres especiais
+    // Nome com textContent pra não quebrar o HTML
     const texto = janela.querySelector("[data-texto]");
     texto.append("Você vai remover ");
     const negrito = document.createElement("strong");
     negrito.textContent = nomeDoAnime;
     texto.append(negrito, ". Essa ação não pode ser desfeita.");
 
-    // Fecha a janela, apaga ela da página e entrega a resposta (true ou false)
+    // Fecha a janela e devolve a resposta
     function fecharComResposta(resposta) {
       janela.close();
       janela.remove();
@@ -124,12 +120,12 @@ function confirmDelete(nomeDoAnime = "este anime") {
     janela.querySelector("[data-confirmar]").addEventListener("click", () => fecharComResposta(true));
     janela.querySelector("[data-cancelar]").addEventListener("click", () => fecharComResposta(false));
 
-    // Clicar fora da janela = cancelar
+    // Clicar fora cancela
     janela.addEventListener("click", (e) => {
       if (e.target === janela) fecharComResposta(false);
     });
 
-    // Apertar Esc = cancelar
+    // Esc cancela
     janela.addEventListener("cancel", (e) => {
       e.preventDefault();
       fecharComResposta(false);

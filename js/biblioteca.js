@@ -1,11 +1,11 @@
-// Selo de status no card (ideia do colega): texto e cores de cada status
+// Texto e cor do selo de cada status
 const SELOS_STATUS = {
   assistindo: { texto: "Assistindo", cores: "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300" },
   finalizado: { texto: "Finalizado", cores: "bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-300" },
   "na-fila": { texto: "Na Fila", cores: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300" },
 };
 
-// Botões redondos de −1 / +1 episódio (estilo do colega)
+// Botões −1 / +1 ep
 const BOTAO_EPISODIO =
   "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-white transition hover:bg-indigo-500 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-indigo-600 disabled:active:scale-100";
 const ICONE_MENOS = `<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M5 12h14"/></svg>`;
@@ -15,15 +15,15 @@ function criarCard(anime) {
   const progresso = Math.round(
     (anime.episodiosVistos / anime.totalEpisodios) * 100,
   );
-  //funçao para criar o card do do anime e pora por  porcentagem de quantos ep ja foram vistos
+  // Porcentagem de eps vistos
   const selo = SELOS_STATUS[anime.status] || SELOS_STATUS["na-fila"];
 
-  // Quem adicionou o anime. Animes salvos antes desse recurso não têm o campo: mostra o nome do site.
+  // Quem adicionou (animes antigos não têm, então mostra o site)
   const autor = anime.adicionadoPor || "AnimeTeca";
 
   return `
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-sm shadow-sm overflow-hidden transition-colors">
-    <!-- Se o anime não tem imagem, usa a padrão. Se o link falhar (onerror), troca pela padrão. -->
+    <!-- Sem capa ou link quebrado: usa a imagem padrão -->
     <img src="${anime.imagem || IMAGEM_PADRAO}" alt="${anime.titulo}" referrerpolicy="no-referrer"
       onerror="this.onerror = null; this.src = IMAGEM_PADRAO;"
       class="w-full aspect-2/3 object-cover" >
@@ -34,13 +34,13 @@ function criarCard(anime) {
 <p class="truncate text-[11px] text-slate-500 dark:text-slate-400">
   Adicionado por <span class="font-semibold text-indigo-600 dark:text-indigo-400">${autor}</span>
 </p>
-<!-- corta titulos grandes com o truncate e mostra a nota e se n tiver vai aparecer sem nota -->
+<!-- Nota (ou "Sem nota") e status -->
 <div class="flex items-center justify-between gap-2">
   <p class="text-sm text-amber-500">${anime.nota === null ? "Sem nota" : "Nota: " + anime.nota}</p>
   <span class="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium ${selo.cores}">${selo.texto}</span>
 </div>
 
-<!-- Progresso com os botões −1 / +1 (ações rápidas, no js/acoes.js) -->
+<!-- Progresso com −1 / +1 (acoes.js) -->
 <div class="mt-2 flex items-center gap-2">
   <button onclick="mudarEpisodio(${anime.id}, -1)" aria-label="Remover um episódio"
     class="${BOTAO_EPISODIO}" ${anime.episodiosVistos <= 0 ? "disabled" : ""}>${ICONE_MENOS}</button>
@@ -56,7 +56,7 @@ function criarCard(anime) {
     class="${BOTAO_EPISODIO}" ${anime.episodiosVistos >= anime.totalEpisodios ? "disabled" : ""}>${ICONE_MAIS}</button>
 </div>
 
-<!-- Editar (js/cadastro.js) e Remover (js/acoes.js) -->
+<!-- Editar (cadastro.js) e Remover (acoes.js) -->
 <div class="mt-3 flex gap-2">
   <button onclick="abrirModalEdicao(${anime.id})"
     class="flex-1 rounded-sm border border-slate-300 py-1 text-xs text-slate-600 transition-colors hover:border-indigo-500 hover:text-indigo-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-indigo-500 dark:hover:text-indigo-400">
@@ -74,9 +74,9 @@ function criarCard(anime) {
 
 function mostrarAnimes(lista) {
   const grid = document.getElementById("grid-animes");
-  grid.innerHTML = ""; // esvazia o grid antes de colocar os cards
+  grid.innerHTML = ""; // limpa o grid
 
-  // Se nenhum anime passou no filtro/pesquisa, avisa em vez de deixar a tela vazia
+  // Nenhum anime? Mostra o aviso
   if (lista.length === 0) {
     grid.innerHTML = `<p class="col-span-full text-center text-slate-500 dark:text-slate-400 py-10">Nenhum anime encontrado.</p>`;
     return;
@@ -89,13 +89,13 @@ function mostrarAnimes(lista) {
 
 let filtroAtual = "todos";
 
-// Chamada quando alguém clica numa aba
+// Clique numa aba
 function filtrarPorStatus(status) {
   filtroAtual = status; // anota a aba escolhida
-  atualizarTela(); // redesenha considerando aba + pesquisa
+  atualizarTela(); // redesenha com aba + pesquisa
 }
 
-// Cores da aba selecionada e das outras abas (iguais às do biblioteca.html)
+// Cores da aba ativa e das outras
 const CORES_ABA_ATIVA = ["bg-indigo-600", "text-white", "border-indigo-600"];
 const CORES_ABA_NORMAL = [
   "bg-white", "text-slate-600", "border-slate-300",
@@ -104,10 +104,10 @@ const CORES_ABA_NORMAL = [
 
 function marcarAbaAtiva() {
   const abas = document.querySelectorAll(".aba");
-   // pega todos os botões de aba
+  // pega todos os botões de aba
 
   for (const aba of abas) {
-    // os "..." espalham a lista: é como escrever cada classe separada por vírgula
+    // "..." espalha a lista de classes
     if (aba.dataset.status === filtroAtual) {
       aba.classList.remove(...CORES_ABA_NORMAL);
       aba.classList.add(...CORES_ABA_ATIVA);
@@ -118,12 +118,12 @@ function marcarAbaAtiva() {
   }
 }
 
-// Chamada a cada letra digitada no campo de pesquisa
+// A cada letra digitada na pesquisa
 function pesquisar() {
-  atualizarTela(); // o texto já está no campo; só redesenha
+  atualizarTela(); // só redesenha
 }
 
-// Aplica a aba selecionada E a pesquisa ao mesmo tempo
+// Aplica aba e pesquisa juntas
 function atualizarTela() {
   const texto = document.getElementById("busca").value.toLowerCase();
 
@@ -138,11 +138,11 @@ function atualizarTela() {
   marcarAbaAtiva();
 }
 
-// ---------- Modo escuro ----------
+// Modo escuro
 
-// Liga ou desliga o modo escuro (chamada pelo botão do cabeçalho)
+// Liga/desliga o modo escuro
 function alternarTema() {
-  // toggle: se o <html> tem a classe "dark", tira; se não tem, coloca
+  // coloca ou tira a classe "dark" do <html>
   document.documentElement.classList.toggle("dark");
 
   const escuro = document.documentElement.classList.contains("dark");
@@ -151,21 +151,21 @@ function alternarTema() {
   atualizarBotaoTema();
 }
 
-// Troca o texto do botão conforme o tema atual
+// Texto do botão conforme o tema
 function atualizarBotaoTema() {
   const escuro = document.documentElement.classList.contains("dark");
   document.getElementById("botao-tema").textContent = escuro ? "Modo claro" : "Modo escuro";
 }
 
-// Quando a página abre: se a pessoa tinha escolhido o modo escuro, já começa escuro
+// Se escolheu escuro antes, já abre escuro
 if (localStorage.getItem("tema") === "escuro") {
   document.documentElement.classList.add("dark");
 }
 atualizarBotaoTema();
 
-// ---------- Carregamento e tela de erro ----------
+// Carregamento e erro
 
-// Enquanto os animes "carregam", mostra cards cinzas piscando (animate-pulse)
+// Cards cinzas piscando enquanto carrega
 function mostrarCarregando() {
   const grid = document.getElementById("grid-animes");
   grid.innerHTML = "";
@@ -182,7 +182,7 @@ function mostrarCarregando() {
   }
 }
 
-// Se der erro ao ler os animes, mostra uma mensagem amigável com "Tentar novamente"
+// Tela de erro com "Tentar novamente"
 function mostrarErro() {
   document.getElementById("grid-animes").innerHTML = `
     <div class="col-span-full rounded-sm border border-red-300 bg-red-50 p-8 text-center dark:border-red-500/50 dark:bg-slate-900">
@@ -193,23 +193,23 @@ function mostrarErro() {
     </div>`;
 }
 
-// Mostra o carregando, espera um pouco (como se fosse um servidor) e desenha os cards
+// Mostra o carregando, espera um pouco e desenha os cards
 function carregarBiblioteca() {
   mostrarCarregando();
 
   setTimeout(() => {
     try {
-      atualizarTela(); // aqui o pegarAnimes() é chamado
+      atualizarTela(); // lê os animes e desenha
     } catch (erro) {
       console.error(erro);
       mostrarErro();
       handleApiError(500);
     }
-  }, 600); // 600 milissegundos = 0,6 segundo
+  }, 600); // 0,6 s
 }
 
-// Quando a página abre: mostra quem está logado no cabeçalho
+// Nome de quem está logado no cabeçalho
 document.getElementById("usuario-logado").textContent = pegarUsuarioLogado();
 
-// Quando a página abre: carrega os animes e mostra na tela
+// Carrega os animes ao abrir a página
 carregarBiblioteca();
