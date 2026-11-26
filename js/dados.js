@@ -9,7 +9,8 @@ const ANIMES_INICIAIS = [
         nota: 9.5,
         episodiosVistos: 18,
         totalEpisodios: 28,
-        status: "assistindo"
+        status: "assistindo",
+        adicionadoPor: "AnimeTeca" // animes de exemplo vêm do próprio site
     },
     {
         id: 2,
@@ -18,7 +19,8 @@ const ANIMES_INICIAIS = [
         nota: 9.0,
         episodiosVistos: 24,
         totalEpisodios: 24,
-        status: "finalizado"
+        status: "finalizado",
+        adicionadoPor: "AnimeTeca" // animes de exemplo vêm do próprio site
     },
     {
         id: 3,
@@ -27,7 +29,8 @@ const ANIMES_INICIAIS = [
         nota: 9.8,
         episodiosVistos: 0,
         totalEpisodios: 75,
-        status: "na-fila"
+        status: "na-fila",
+        adicionadoPor: "AnimeTeca" // animes de exemplo vêm do próprio site
     }
 ];
 //Devolve a lista
@@ -55,4 +58,13 @@ function getUsers() {
 // Salva a lista de usuários (convertida em texto)
 function saveUsers(users) {
   localStorage.setItem('users', JSON.stringify(users));
+}
+
+// Devolve o nome de quem está logado agora (o login guarda isso em "loggedUser")
+function pegarUsuarioLogado() {
+  const salvo = localStorage.getItem('loggedUser');
+  if (salvo) {
+    return JSON.parse(salvo).username;
+  }
+  return "Desconhecido";
 }

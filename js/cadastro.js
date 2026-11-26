@@ -125,6 +125,7 @@ function salvarCadastro(event) {
     episodiosVistos: episodiosVistos,
     totalEpisodios: totalEpisodios,
     status: form.status.value,
+    adicionadoPor: pegarUsuarioLogado(), // quem está logado (função do dados.js)
   };
 
   const lista = pegarAnimes();

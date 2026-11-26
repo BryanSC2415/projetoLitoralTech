@@ -16,6 +16,10 @@ function criarCard(anime) {
     (anime.episodiosVistos / anime.totalEpisodios) * 100,
   );
   //funçao para criar o card do do anime e pora por  porcentagem de quantos ep ja foram vistos
+  const selo = SELOS_STATUS[anime.status] || SELOS_STATUS["na-fila"];
+
+  // Quem adicionou o anime. Animes salvos antes desse recurso não têm o campo: mostra o nome do site.
+  const autor = anime.adicionadoPor || "AnimeTeca";
 
   return `
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-sm shadow-sm overflow-hidden transition-colors">
@@ -27,11 +31,13 @@ function criarCard(anime) {
 
 <div class="p-3">
 <h2 class="font-bold truncate text-slate-800 dark:text-slate-100">${anime.titulo}</h2>
-<p class="text-sm text-amber-500">${anime.nota === null ? "Sem nota" : "Nota: " + anime.nota}</p>
+<p class="truncate text-[11px] text-slate-500 dark:text-slate-400">
+  Adicionado por <span class="font-semibold text-indigo-600 dark:text-indigo-400">${autor}</span>
+</p>
 <!-- corta titulos grandes com o truncate e mostra a nota e se n tiver vai aparecer sem nota -->
-<p class="text-xs text-slate-500 dark:text-slate-400 mt-2">${anime.episodiosVistos} / ${anime.totalEpisodios} episódios</p>
-<div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5">
-<div class="bg-indigo-500 h-1.5 rounded-full" style="width: ${progresso}%"></div>
+<div class="flex items-center justify-between gap-2">
+  <p class="text-sm text-amber-500">${anime.nota === null ? "Sem nota" : "Nota: " + anime.nota}</p>
+  <span class="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium ${selo.cores}">${selo.texto}</span>
 </div>
 
 <!-- Progresso com os botões −1 / +1 (ações rápidas, no js/acoes.js) -->
@@ -201,6 +207,9 @@ function carregarBiblioteca() {
     }
   }, 600); // 600 milissegundos = 0,6 segundo
 }
+
+// Quando a página abre: mostra quem está logado no cabeçalho
+document.getElementById("usuario-logado").textContent = pegarUsuarioLogado();
 
 // Quando a página abre: carrega os animes e mostra na tela
 carregarBiblioteca();
